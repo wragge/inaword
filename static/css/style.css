@@ -1,0 +1,6 @@
+body { padding-top: 70px; }
+.word { font-size: 300%; font-weight: 300;}
+.month { border-top: 1px solid #999999; padding-top: 10px;}
+.word a { display: block; color: #222;}
+.word a:hover { display: block; color: #008cba; text-decoration: none;}
+.program { margin-bottom: 0;}
