@@ -5,3 +5,4 @@ body { padding-top: 70px; }
 .word a:hover { display: block; color: #008cba; text-decoration: none;}
 .program { margin-bottom: 0;}
 .about { padding-top: 50px; margin-top: -50px; margin-bottom: 20px;}
+#about {margin-bottom: 10px; border-bottom: 1px solid #999999; padding-bottom: 40px;}
