@@ -4,7 +4,7 @@ import pickle
 
 app = Flask(__name__)
 
-#path = ""
+path = ""
 path = "/home/dhistory/webapps/inaword/inaword/"
 
 @app.route("/")

@@ -99,6 +99,12 @@
             <h2>Data</h2>
             <p><a href="http://trove.nla.gov.au">Trove</a>, The National Library of Australia's discovery service, harvests the details of 54 ABC Radio National programs. Currently there are over 200,000 RN records in Trove, including details of every segment of ABC Radio's current affairs programs &ndash; <a href="http://trove.nla.gov.au/music/result?q=nuc%3A%22ABC%3ARN%22+%22ABC%20Radio.%20AM%22">AM</a>, <a href="http://trove.nla.gov.au/music/result?q=nuc%3A%22ABC%3ARN%22+%22ABC%20Radio.%20PM%22">PM</a> and <a href="http://trove.nla.gov.au/music/result?q=nuc%3A%22ABC%3ARN%22+%22ABC%20Radio.%20The World Today%22">The World Today</a> &ndash; broadcast since 1999. This is an important record of Australia's recent social and political history.</p>
             <p>All of this metadata is available for re-use through the <a href="http://trove.nla.gov.au/general/api">Trove API</a>, opening it up for new forms of analysis and exploration.</p>
+
+            <p>Building a harvester to grab data from Trove is pretty straightforward. A while back I created a simple Python <a href="https://github.com/Trove-Toolshed/trove-python/tree/master/trove_python/trove_harvest">TroveHarvester class</a> that handles all the basics. You just need to subclass this, replacing the process_results() method with something more useful.</p>
+
+            <p>The harvester I used to build a local copy of all the Radio National data is <a href="https://github.com/wragge/trove-abcrn/blob/master/harvest.py">available on GitHub</a>. It simply queries the Trove API and saves the results to a MongoDB collection.</p>
+            
+            <p>API results are returned at the &lsquo;work&rsquo; level, and a single work may include multiple versions. In the case of the Radio National data, the records of some regular segments have been grouped together as works because they have the same title and creator. To make it easy to get at all the individual records, the harvester opens up each work and extracts and saves the metadata for all the versions inside. As a result, the total number of records saved by the harvester will be greater than the number of work-level search results returned by Trove.</p>
           </div>
         </div>
         <div class="row">
@@ -106,9 +112,9 @@
             <h2>Method</h2>
             <p>TF&ndash;IDF (Term Frequency &ndash; Inverse Document Frequency) provides a measure of how significant a word is in a particular document by comparing it&rsquo;s frequency within that document to it&rsquo;s frequency within a collection of similar documents. Words that are common across all documents will have a low TF&ndash;IDF value, while words that appear frequently in just a small subset of documents will have a high value.</p>
 
-            <p>I&rsquo;d previously played around with TF-IDF during my Harold White Fellowship at the National Library of Australia. Using a set of 10,000 newspaper articles harvested from Trove, I created The Future of the Past, which used words with high TF&ndash;IDF values as a way of navigating through time (and creating your own tweetable fridge poetry!).</p>
+            <p>I&rsquo;d previously <a href="http://discontents.com.au/mining-for-meanings/">played around with TF-IDF</a> during my Harold White Fellowship at the National Library of Australia. Using a set of 10,000 newspaper articles harvested from Trove, I created <a href="http://newspapers.wraggelabs.com/fotp/">The Future of the Past</a>, which used words with high TF&ndash;IDF values as a way of navigating through time (and creating your own tweetable fridge poetry!).</p>
 
-            <p>TF-IDF is used all over the place by search engines to calculate the similarity of documents, but what entranced me was the evocative power of the words themselves. They seemed to tell a story...</p>
+            <p>TF-IDF is used all over the place by search engines to calculate the similarity of documents, but what entranced me was the <a href="https://storify.com/wragge/tf-idf-fridge-poetry">evocative power of the words themselves</a>. They seemed to tell a story...</p>
 
             <p>For <em>In A Word</em> I wanted to try and capture the ebb and flow of current affairs &ndash; particularly, those topics that seemed to capture our attention for days or weeks and then disappear. TF&ndash;IDF seemed quite well suited to identifying what was different over time.</p>
             
@@ -140,14 +146,14 @@
         <div class="row">
           <div class="col-md-12 about" id="credits">
             <h2 id="credits">Credits</h2>
-            <p><em>In a word</em> was created by Tim Sherratt (@wragge) using the <a href="http://trove.nla.gov.au/general/api">Trove API</a>.</p>
+            <p><em>In a word</em> was created by <a href="http://discontents.com.au/about-me/">Tim Sherratt</a> (<a href="http://twitter.com/wragge">@wragge</a>) using the <a href="http://trove.nla.gov.au/general/api">Trove API</a>.</p>
             <p>Thanks to the developers, maintainers and communities of the following software:</p>
             <ul>
               <li>Python</li>
-              <li>Flask</li>
-              <li>NLTK</li>
-              <li>Bootstrap</li>
-              <li>Yeti theme from Bootswatch</li>
+              <li><a href="http://flask.pocoo.org/">Flask</a></li>
+              <li><a href="http://www.nltk.org/">NLTK</a></li>
+              <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
+              <li><a href="http://bootswatch.com/yeti/">Yeti theme from Bootswatch</a></li>
             </ul>
           </div>
       </div>
