@@ -1,5 +1,5 @@
 $(function() {
-  $("nav ul li a[href^='#']").on('click', function(e) {
+  $("a[href^='#']").on('click', function(e) {
 
      // prevent default anchor click behavior
      e.preventDefault();
@@ -9,7 +9,7 @@ $(function() {
 
      // animate
      $('html, body').animate({
-         scrollTop: $(this.hash).offset().top - 50
+         scrollTop: $(this.hash).offset().top
        }, 300, function(){
 
          // when done, add hash to url

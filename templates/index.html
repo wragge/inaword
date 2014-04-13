@@ -36,7 +36,6 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li><a href="#about">About</a></li>
-          <li><a href="#">Link</a></li>
           <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Years <b class="caret"></b></a>
           <ul class="dropdown-menu">
@@ -44,7 +43,11 @@
               <li><a href="#{{ year.year }}">{{ year.year }}</a></li>
             {% endfor %}
           </ul>
-        </li>
+          </li>
+          <li><a href="#data">Data</a></li>
+          <li><a href="#method">Method</a></li>
+          <li><a href="#problems">Problems</a></li>
+          <li><a href="#credits">Credits</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -56,9 +59,12 @@
         </header>
       </div>
       <div class="row">
-        <div class="col-md-12">
-          <h2 id="about">About</h2>
-          <p>What can you read in a single word? Drawing on the details of ABC Radio current affairs programs stored in Trove, this page presents a word a month from AM, The World Today, and PM.</p>
+        <div class="col-md-12 about" id="about">
+          <h2>About</h2>
+          <p>What can you read in a single word? Drawing on details of ABC Radio current affairs programs stored in <a href="http://trove.nla.gov.au">Trove</a>, this page presents a word a month from AM, The World Today, and PM.</p>
+          <p>Which words? The selected words are those that seem most distinctive, based on a statistical measure called TF&ndash;IDF (Term Frequency &ndash; Inverse Document Frequency). It's a fairly <a href="#method">simple method</a> with numerous <a href="#problems">problems</a>, but this isn&rsquo;t intended as a rigorous statistical analysis.</p>
+          <p>The aim of this page is to provide a reminder of the people, events, stories and places that seemed significant at the time, but might now have faded from memory. It&rsquo;s just one possible way of exploring the <a href="#data">rich store of ABC data</a> available through Trove. Hopefully it will inspire others to dig deeper.</p>
+          <p>Click on any of the words to browse related stories in Trove.</p>
         </div>
       </div>
       {% for year in data %}
@@ -70,21 +76,81 @@
             <div class="col-md-3">
               <p class="program text-muted">AM</p>
               <p class="word">
-              <a title="Search Trove for {{ row.am }}" href="http://trove.nla.gov.au/music/result?l-decade={{ year.year|string|truncate(3, True,'') }}&l-year={{ year.year }}&q=nuc%3A%22ABC%3ARN%22+%22ABC Radio. AM%22+text%3A%22{{ row.am }}%22">{{row.am }}</a>
+              <a title="Search Trove for {{ row.am }}" href="http://trove.nla.gov.au/music/result?l-decade={{ year.year|string|truncate(3, True,'') }}&l-year={{ year.year }}&q=nuc%3A%22ABC%3ARN%22+%22ABC Radio. AM%22+text%3A%22{{ row.am }}%22+%22{{ year.year }}-{{ row.month }}%22">{{ row.am }}</a>
               </p>
             </div>
             <div class="col-md-3">
-              {{ row.world }}
+              <p class="program text-muted">The World Today</p>
+              <p class="word">
+              <a title="Search Trove for {{ row.today }}" href="http://trove.nla.gov.au/music/result?l-decade={{ year.year|string|truncate(3, True,'') }}&l-year={{ year.year }}&q=nuc%3A%22ABC%3ARN%22+%22ABC Radio. The World Today%22+text%3A%22{{ row.today }}%22+%22{{ year.year }}-{{ row.month }}%22">{{ row.today }}</a>
+              </p>
             </div>
             <div class="col-md-3">
               <p class="program text-muted">PM</p>
               <p class="word">
-              <a title="Search Trove for {{ row.pm }}" href="http://trove.nla.gov.au/music/result?l-decade={{ year.year|string|truncate(3, True,'') }}&l-year={{ year.year }}&q=nuc%3A%22ABC%3ARN%22+%22ABC Radio. PM%22+text%3A%22{{ row.pm }}%22">{{row.pm }}</a>
+              <a title="Search Trove for {{ row.pm }}" href="http://trove.nla.gov.au/music/result?l-decade={{ year.year|string|truncate(3, True,'') }}&l-year={{ year.year }}&q=nuc%3A%22ABC%3ARN%22+%22ABC Radio. PM%22+text%3A%22{{ row.pm }}%22+%22{{ year.year }}-{{ row.month }}%22">{{ row.pm }}</a>
               </p>
             </div>
           </div>
         {% endfor %}
       {% endfor %}
+        <div class="row">
+          <div class="col-md-12 about" id="data">
+            <h2>Data</h2>
+            <p><a href="http://trove.nla.gov.au">Trove</a>, The National Library of Australia's discovery service, harvests the details of 54 ABC Radio National programs. Currently there are over 200,000 RN records in Trove, including details of every segment of ABC Radio's current affairs programs &ndash; <a href="http://trove.nla.gov.au/music/result?q=nuc%3A%22ABC%3ARN%22+%22ABC%20Radio.%20AM%22">AM</a>, <a href="http://trove.nla.gov.au/music/result?q=nuc%3A%22ABC%3ARN%22+%22ABC%20Radio.%20PM%22">PM</a> and <a href="http://trove.nla.gov.au/music/result?q=nuc%3A%22ABC%3ARN%22+%22ABC%20Radio.%20The World Today%22">The World Today</a> &ndash; broadcast since 1999. This is an important record of Australia's recent social and political history.</p>
+            <p>All of this metadata is available for re-use through the <a href="http://trove.nla.gov.au/general/api">Trove API</a>, opening it up for new forms of analysis and exploration.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 about" id="method">
+            <h2>Method</h2>
+            <p>TF&ndash;IDF (Term Frequency &ndash; Inverse Document Frequency) provides a measure of how significant a word is in a particular document by comparing it&rsquo;s frequency within that document to it&rsquo;s frequency within a collection of similar documents. Words that are common across all documents will have a low TF&ndash;IDF value, while words that appear frequently in just a small subset of documents will have a high value.</p>
+
+            <p>I&rsquo;d previously played around with TF-IDF during my Harold White Fellowship at the National Library of Australia. Using a set of 10,000 newspaper articles harvested from Trove, I created The Future of the Past, which used words with high TF&ndash;IDF values as a way of navigating through time (and creating your own tweetable fridge poetry!).</p>
+
+            <p>TF-IDF is used all over the place by search engines to calculate the similarity of documents, but what entranced me was the evocative power of the words themselves. They seemed to tell a story...</p>
+
+            <p>For <em>In A Word</em> I wanted to try and capture the ebb and flow of current affairs &ndash; particularly, those topics that seemed to capture our attention for days or weeks and then disappear. TF&ndash;IDF seemed quite well suited to identifying what was different over time.</p>
+            
+            <p>In this case a &lsquo;document&rsquo; is actually the combined titles and summaries of every segment of a program for a month. The TF&ndash;IDF values are calculated by comparing this &lsquo;document&rsquo; to every other month from the complete decade, 2003&ndash;2013.</p>
+
+            <p>I used the Python Natural Language Toolkit (NLTK) to actually perform the calculations. So the basic method for each program went something like:</p>
+
+            <ul>
+              <li>Loop through program records by year/month, writing titles and summaries for each month to a separate text file</li>
+              <li>Create a corpus of all the text files using NLTK</li>
+              <li>Loop through the corpus file by file, breaking the content up into individual words (known as tokenising)</li>
+              <li>Loop through the words calculating a TF&ndash;IDF for each (ignoring common 'stopwords', just to speed things up a bit)</li>
+              <li>Select the word with the highest TF&ndash;IDF for each month and write them to a data file to use in the web interface</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 about" id="problems">
+            <h2 id="problems">Problems</h2>
+            <p>You might be wondering about the word &lsquo;Documentary&rsquo; that turns up in the PM column a few times in December and January. What&rsquo;s going on? In the holiday period, many of the stories broadcast on PM included the words &lsquo;Documentary Special&rsquo; in the title. So the word &lsquo;Documentary&rsquo; is really common in December and January, but pretty rare throughout the rest of the year. As a result it wins a good TF&ndash;IDF score.</p>
+
+            <p>Similarly, you might be straining to recall some of the names that turn up in PM &ndash; Alle, Glanville and Woolrich for example. Were they politicians, criminals, corporate big-wigs...? They&rsquo;re actually business and finance reporters. You&rsquo;d generally expect that the names of journalists would be common enough across the whole corpus that their TF&ndash;IDF values would be fairly low. But PM seems to have turned over business and finance reporters on a regular basis, so they're very prominent for relatively short periods. And that means they score well.</p>
+
+            <p>So why did I leave these oddities in? I thought about simply adding words like &lsquo;Documentary&rsquo; to my list of stopwords so they&rsquo;d be ignored. But what if there really was a case where a documentary had become controversial? Similarly, I looked at ways of extracting the names of journalists from the program metadata so I could exclude them from the calculations. But it was hard to separate journalists from the subjects of their stories.</p>
+
+            <p>In the end I thought that instead of massaging the data it was better to leave the problems in, and make the limitations of this method and the complications of the data obvious. Perhaps I&rsquo;ll create a cleaned up version in the future for comparison.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 about" id="credits">
+            <h2 id="credits">Credits</h2>
+            <p><em>In a word</em> was created by Tim Sherratt (@wragge) using the <a href="http://trove.nla.gov.au/general/api">Trove API</a>.</p>
+            <p>Thanks to the developers, maintainers and communities of the following software:</p>
+            <ul>
+              <li>Python</li>
+              <li>Flask</li>
+              <li>NLTK</li>
+              <li>Bootstrap</li>
+              <li>Yeti theme from Bootswatch</li>
+            </ul>
+          </div>
+      </div>
     </div>
 
 
